@@ -11,7 +11,7 @@ const ClassTestingComponent = () => {
 export default ClassTestingComponent;
 
 const ErrorComponent = () => {
-  // throw new Error("Something went wrong");
+  throw new Error("Something went wrong");
 
   return (
     <>
