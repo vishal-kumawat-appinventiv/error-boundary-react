@@ -1,5 +1,11 @@
+import ClassTestingComponent from "./modules/ClassTestingComponent";
+
 const App = () => {
-  return <h1>App</h1>;
+  return (
+    <>
+      <ClassTestingComponent />
+    </>
+  );
 };
 
 export default App;
