@@ -1,21 +1,22 @@
 import { ErrorBoundary, useErrorBoundary } from "react-error-boundary";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const ErrorFallback = () => {
+const ErrorFallback = ({ ErrorMsg }: { ErrorMsg: string }) => {
   return (
     <div style={{ padding: "1rem", margin: "1rem", border: "1px solid red" }}>
-      <h1>{"Error: Something went wrong"}</h1>
+      <h1>{`${ErrorMsg}`}</h1>
     </div>
   );
 };
 
-const ComponentThatMayFail = () => {
+const ComponentThatMayFail = ({ setErrorMsg }: { setErrorMsg: any }) => {
   const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
     try {
-      throw new Error("An error occurred!");
+      throw new Error("Something went wrong");
     } catch (error) {
+      setErrorMsg(error);
       showBoundary(error);
     }
   }, [showBoundary]);
@@ -27,10 +28,16 @@ const ComponentThatMayFail = () => {
   );
 };
 
-const FuncTestingComponent = () => (
-  <ErrorBoundary fallback={<ErrorFallback />}>
-    <ComponentThatMayFail />
-  </ErrorBoundary>
-);
+const FuncTestingComponent = () => {
+  const [ErrorMsg, setErrorMsg] = useState<string>("");
+
+  console.log("ErrorMSG: ", ErrorMsg);
+
+  return (
+    <ErrorBoundary fallback={<ErrorFallback ErrorMsg={ErrorMsg} />}>
+      <ComponentThatMayFail setErrorMsg={setErrorMsg} />
+    </ErrorBoundary>
+  );
+};
 
 export default FuncTestingComponent;
